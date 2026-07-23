@@ -1,58 +1,64 @@
 :root {
-  --frequencia: #126ae2;
-  --nota: #126ae2;
-  --prova: #126ae2;  
+  --attendance: #126ae2;
+  --grade: #126ae2;
+  --exam: #126ae2;
 }
 
-.titulo_aula {
-    font-weight: bold;
-    font-size: 15px;
-    padding: 0 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.class-card {
+  margin-bottom: 15px;
 }
 
-.lables {
-    display: flex;
+.class-title {
+  font-weight: bold;
+  font-size: 15px;
+  padding: 0 5px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.lable-prova,
-.lable-frequencia,
-.lable-nota {
-    background-color: var(--prova);
-    padding: 7px 15px;
-    margin-bottom: 10px;
-    border-radius: 500px;
-    text-align: center;
-    margin-right: 10px;
+.labels {
+  display: flex;
 }
 
-.lable-frequencia {
-    background-color: var(--frequencia);
+.label {
+  background-color: var(--exam);
+
+  padding: 7px 15px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+
+  border-radius: 500px;
+  text-align: center;
+
+  color: white;
+  font-size: 13px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.lable-nota {
-    background-color: var(--nota);
+.attendance-label {
+  background-color: var(--attendance);
 }
 
-.p_lable {
-    font-size: 13px;
-    color: white;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.grade-label {
+  background-color: var(--grade);
 }
 
-/* Cores dinâmicas da nota */
-.nota-vermelha {
+
+/* Grade colors */
+
+.grade-red {
   background-color: red !important;
 }
 
-.nota-laranja {
+.grade-orange {
   background-color: orange !important;
 }
 
-.nota-verde {
+.grade-green {
   background-color: green !important;
 }
