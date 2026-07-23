@@ -1,4 +1,4 @@
-class AulasComponent extends HTMLElement {
+class ClassesComponent extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -11,53 +11,88 @@ class AulasComponent extends HTMLElement {
 
   async loadData() {
     try {
-      const response = await fetch('aulas.json');
-      const aulas = await response.json();
-      this.render(aulas);
+      const response = await fetch('classes.json');
+      const classes = await response.json();
+
+      this.render(classes);
     } catch (error) {
-      console.error('Erro ao carregar os dados das aulas:', error);
+      console.error('Error loading class data:', error);
     }
   }
 
-  render(aulas) {
-    const aulasDia = aulas.filter(a => a.data === this.hoje);
+  render(classes) {
+    const classesToday = classes.filter(
+      c => c.data === this.hoje
+    );
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'styles_componente.css'; 
-    this.shadowRoot.appendChild(link); 
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = 'classes-component.css';
 
-    this.shadowRoot.innerHTML += `
-      <div>
-        ${aulasDia.map(a => {
-          let provaDisplay = a.prova_alert ? '' : 'display: none;';
+    this.shadowRoot.appendChild(style);
 
-          // Definir classe da nota
-          let classeNota = '';
-          const nota = parseFloat(a.nota);
-          if (nota < 6) {
-            classeNota = 'nota-vermelha';
-          } else if (nota >= 6 && nota < 8) {
-            classeNota = 'nota-laranja';
-          } else if (nota >= 8) {
-            classeNota = 'nota-verde';
-          }
+    const container = document.createElement('div');
 
-          return `
-            <div class="comp-aula">
-              <div class="lable-prova p_lable" style="${provaDisplay}">PROVA: <b>${a.prova}</b></div>
-              <div class="titulo_aula">${a.disciplina}</div>
-              <p class="p">Local e Horário: <b>${a.local} - ${a.horario}</b></p>
-              <div class="lables">
-                <div class="lable-frequencia p_lable">FALTAS: <b>${a.frequencia}</b></div>
-                <div class="lable-nota p_lable ${classeNota}">CR: <b>${a.nota}</b></div>
-              </div>
+    container.innerHTML = `
+      ${classesToday.map(c => {
+
+        let examDisplay = c.prova_alert ? '' : 'display: none;';
+
+        let gradeClass = '';
+
+        const grade = parseFloat(c.nota);
+
+        if (grade < 6) {
+          gradeClass = 'grade-red';
+        } 
+        else if (grade >= 6 && grade < 8) {
+          gradeClass = 'grade-orange';
+        } 
+        else {
+          gradeClass = 'grade-green';
+        }
+
+        return `
+          <div class="class-card">
+
+            <div class="exam-label label" style="${examDisplay}">
+              EXAM: <b>${c.prova}</b>
             </div>
-          `;
-        }).join('')}
-      </div>
+
+            <div class="class-title">
+              ${c.disciplina}
+            </div>
+
+            <p>
+              Location and Time:
+              <b>${c.local} - ${c.horario}</b>
+            </p>
+
+            <div class="labels">
+
+              <div class="attendance-label label">
+                ABSENCES:
+                <b>${c.frequencia}</b>
+              </div>
+
+              <div class="grade-label label ${gradeClass}">
+                GRADE:
+                <b>${c.nota}</b>
+              </div>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join('')}
     `;
+
+    this.shadowRoot.appendChild(container);
   }
 }
 
-customElements.define('aulas-component', AulasComponent);
+customElements.define(
+  'classes-component',
+  ClassesComponent
+);
